@@ -74,7 +74,7 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
-            <version>1.2.15</version>
+            <version>1.2.32</version>
         </dependency>
 
 
@@ -135,12 +135,7 @@
 
 
     </dependencies>
-    <repositories>
-        <repository>
-            <id>yihui-maven-repo</id>
-            <url>https://raw.githubusercontent.com/liuyueyi/maven-repository/master/repository</url>
-        </repository>
-    </repositories>
+
     <build>
         <finalName>Blog</finalName>
 

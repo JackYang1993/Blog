@@ -2,9 +2,9 @@ package io.yg.util;
 
 import com.github.hui.quick.plugin.md.MarkDown2HtmlWrapper;
 import com.github.hui.quick.plugin.md.entity.MarkdownEntity;
-import com.vladsch.flexmark.ast.Node;
 import com.vladsch.flexmark.html.HtmlRenderer;
 import com.vladsch.flexmark.parser.Parser;
+import com.vladsch.flexmark.util.ast.Node;
 import com.vladsch.flexmark.util.options.MutableDataSet;
 import com.youbenzi.mdtool.tool.MDTool;
 import org.apache.commons.io.FileUtils;
