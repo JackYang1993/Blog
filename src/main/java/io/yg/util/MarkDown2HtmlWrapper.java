@@ -23,7 +23,7 @@ public class MarkDown2HtmlWrapper {
 
     static {
         try {
-            MD_CSS = FileReadUtil.readAll("D:\\DevelopEnvironment\\idea_workspace1\\Blog\\src\\main\\resources\\markdown.css");
+            MD_CSS = FileReadUtil.readAll("/markdown.css");
             MD_CSS = "<style type=\"text/css\">\n" + MD_CSS + "\n</style>\n";
         } catch (Exception e) {
             MD_CSS = "";
@@ -41,7 +41,6 @@ public class MarkDown2HtmlWrapper {
     public static MarkdownEntity ofFile(String path) throws IOException {
         return ofStream(new FileInputStream(path));
     }
-
 
 
     /**

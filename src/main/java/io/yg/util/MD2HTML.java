@@ -4,7 +4,7 @@ import com.vladsch.flexmark.html.HtmlRenderer;
 import com.vladsch.flexmark.parser.Parser;
 import com.vladsch.flexmark.util.ast.Node;
 import com.vladsch.flexmark.util.options.MutableDataSet;
-import com.youbenzi.mdtool.tool.MDTool;
+
 import org.apache.commons.io.FileUtils;
 
 import java.io.*;
@@ -23,7 +23,7 @@ public class MD2HTML {
     }
 
 
-    public static String mdtohtmlWithFile(File mdfile) throws IOException {
+  /*  public static String mdtohtmlWithFile(File mdfile) throws IOException {
 
         String s = mdtohtmlWithFile(new File("/Users/guojf/Hadoop.md"));
 
@@ -38,7 +38,7 @@ public class MD2HTML {
 
         return MDTool.markdown2Html(mdfile);
 
-    }
+    }*/
 
 
     static void md2xToHtml() throws Exception {
@@ -99,7 +99,7 @@ public class MD2HTML {
 
     public static void test01() throws IOException {
 
-        MarkdownEntity markdownEntity = MarkDown2HtmlWrapper.ofFile("D:\\CloudStation\\CloudStation\\课程\\问题\\Github生成添加SSH公钥.md");
+        MarkdownEntity markdownEntity = MarkDown2HtmlWrapper.ofFile("/Users/guojf/Hadoop.md");
 
         System.out.println(markdownEntity.toString());
 
