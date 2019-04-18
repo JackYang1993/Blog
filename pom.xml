@@ -13,6 +13,8 @@
         <version>1.5.7.RELEASE</version>
     </parent>
 
+
+
     <dependencies>
 
 
@@ -93,11 +95,6 @@
         </dependency>
 
 
-        <dependency>
-            <groupId>com.github.hui.media</groupId>
-            <artifactId>markdown-plugin</artifactId>
-            <version>1.0</version>
-        </dependency>
 
 
         <dependency>
@@ -105,6 +102,9 @@
             <artifactId>flexmark-all</artifactId>
             <version>0.42.4</version>
         </dependency>
+
+
+
 
         <!--集成jsp-->
         <dependency>
@@ -122,21 +122,40 @@
             <artifactId>servlet-api</artifactId>
             <version>2.5</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>fluent-hc</artifactId>
+            <version>4.5.2</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-tomcat</artifactId>
         </dependency>
 
+
+
         <dependency>
-            <groupId>com.md2x</groupId>
-            <artifactId>md2x</artifactId>
-            <version>1.0</version>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.6</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>21.0</version>
         </dependency>
 
 
     </dependencies>
 
+
+
+
     <build>
+
+
         <finalName>Blog</finalName>
 
 
@@ -168,6 +187,14 @@
                     <!--配置文件的路径 -->
                     <configurationFile>${basedir}/src/main/resources/generatorConfig.xml</configurationFile>
                     <overwrite>true</overwrite>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
                 </configuration>
             </plugin>
 

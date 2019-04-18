@@ -1,14 +1,11 @@
 package io.yg.util;
 
-import com.github.hui.quick.plugin.md.MarkDown2HtmlWrapper;
-import com.github.hui.quick.plugin.md.entity.MarkdownEntity;
 import com.vladsch.flexmark.html.HtmlRenderer;
 import com.vladsch.flexmark.parser.Parser;
 import com.vladsch.flexmark.util.ast.Node;
 import com.vladsch.flexmark.util.options.MutableDataSet;
 import com.youbenzi.mdtool.tool.MDTool;
 import org.apache.commons.io.FileUtils;
-import top.touchface.md2x.Md2x;
 
 import java.io.*;
 
@@ -21,7 +18,7 @@ public class MD2HTML {
 
     public static void main(String[] args) throws Exception {
 
-        test02();
+        test01();
 
     }
 
@@ -47,7 +44,7 @@ public class MD2HTML {
     static void md2xToHtml() throws Exception {
 
 
-        FileInputStream fileInputStream = new FileInputStream("/Users/guojf/Hadoop.md");
+       /* FileInputStream fileInputStream = new FileInputStream("/Users/guojf/Hadoop.md");
 
         byte[] bytes = new byte[1024];
 
@@ -72,7 +69,7 @@ public class MD2HTML {
         PrintWriter printWriter = new PrintWriter(file);
         printWriter.write(parse);
         printWriter.flush();
-        printWriter.close();
+        printWriter.close();*/
 
     }
 
@@ -87,28 +84,22 @@ public class MD2HTML {
         int lineNum = 1;
 
 
-        String tempLine  = null;
+        String tempLine = null;
 
-        while ((tempLine = reader.readLine())!=null){
+        while ((tempLine = reader.readLine()) != null) {
             System.out.println(tempLine);
-
-
 
 
             lineNum++;
         }
 
 
-
-
-
     }
-
 
 
     public static void test01() throws IOException {
 
-        MarkdownEntity markdownEntity = MarkDown2HtmlWrapper.ofFile("/Users/guojf/Hadoop.md");
+        MarkdownEntity markdownEntity = MarkDown2HtmlWrapper.ofFile("D:\\CloudStation\\CloudStation\\课程\\问题\\Github生成添加SSH公钥.md");
 
         System.out.println(markdownEntity.toString());
 
@@ -131,12 +122,16 @@ public class MD2HTML {
         HtmlRenderer renderer = HtmlRenderer.builder(options).build();
 
 
-
-
         // You can re-use parser and renderer instances
         Node document = parser.parse("");
         String html = renderer.render(document);  // "<p>This is <em>Sparta</em></p>\n"
         System.out.println(html);
+
+
+    }
+
+
+    public static void test03() {
 
 
     }
