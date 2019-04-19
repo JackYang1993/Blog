@@ -1,11 +1,13 @@
 package io.yg.generate;
 
+import io.yg.generate.entity.Article;
 import io.yg.util.MarkDown2HtmlWrapper;
 import io.yg.util.MarkdownEntity;
 import org.apache.commons.io.FileUtils;
 
 
 import java.io.*;
+import java.util.*;
 import java.util.jar.JarFile;
 
 /**
@@ -38,7 +40,7 @@ public class GenerateResource {
 
                         for (File listFile : file1.listFiles()) {
 
-                            FileUtils.copyFile(listFile, new File("./src/main/webapp/static/assets/" + listFile.getName()));
+                            FileUtils.copyFile(listFile, new File("/usr/share/nginx/html//assets/" + listFile.getName()));
                         }
 
 
@@ -136,6 +138,67 @@ public class GenerateResource {
 
 
     public static void delFile(File file) {
+
+
+        if (file.getName().endsWith(".md")) {
+
+            File file1 = new File("/usr/local/nginx/html/" + file.getName().split(".")[0] + ".html");
+            file1.deleteOnExit();
+        }
+
+
+    }
+
+
+    public static void generateIndex() {
+
+
+       Set set = new TreeSet();
+
+        File filelist = new File("D:\\CloudStation\\CloudStation\\课程\\院校\\中原工\\2018下学期\\环境配置");
+
+
+        for (File file : filelist.listFiles()) {
+
+            if (file.getName().endsWith(".md")) {
+
+                Long time = file.lastModified();
+
+                set.add(new Article(file.getName(),time));
+
+
+
+            }
+        }
+
+
+        set.forEach((a)->{
+            System.out.println(a);
+        });
+
+
+
+
+
+    }
+
+
+    public static void copyCSSResgource() {
+
+        try {
+            File file = new File("/usr/share/nginx/html/app/");
+
+
+            boolean exists = file.exists();
+
+            if (!exists) {
+                FileUtils.copyInputStreamToFile(GenerateResource.class.getResourceAsStream("/blog/app.css"), new File("/usr/local/nginx/html/css/app.css"));
+                FileUtils.copyInputStreamToFile(GenerateResource.class.getResourceAsStream("/blog/markdown.css"), new File("/usr/local/nginx/html/css/markdown.css"));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
     }

@@ -23,8 +23,11 @@ public class FileScanner extends FileAlterationListenerAdaptor {
      */
     public void onFileCreate(File file) {
         log.info("[新建]:" + file.getAbsolutePath());
-        GenerateResource.generateHtml(new File(file.getAbsolutePath()));
 
+
+        if (file.isFile()) {
+            GenerateResource.generateHtml(new File(file.getAbsolutePath()));
+        }
 
     }
 
@@ -32,16 +35,20 @@ public class FileScanner extends FileAlterationListenerAdaptor {
      * 文件创建修改
      */
     public void onFileChange(File file) {
-        log.info("[修改]:" + file.getAbsolutePath());
-        GenerateResource.generateHtml(new File(file.getAbsolutePath()));
+        if (file.isFile()) {
+            log.info("[修改]:" + file.getAbsolutePath());
+            GenerateResource.generateHtml(new File(file.getAbsolutePath()));
+        }
     }
 
     /**
      * 文件删除
      */
     public void onFileDelete(File file) {
-        log.info("[删除]:" + file.getAbsolutePath());
-        GenerateResource.delFile(new File(file.getAbsolutePath()));
+        if (file.isFile()) {
+            log.info("[删除]:" + file.getAbsolutePath());
+            GenerateResource.delFile(new File(file.getAbsolutePath()));
+        }
     }
 
     /**
@@ -75,10 +82,10 @@ public class FileScanner extends FileAlterationListenerAdaptor {
         super.onStop(observer);
     }
 
-    public static void start(String path) throws Exception {
+    public void start(String filepath) throws Exception {
 
         // 监控目录
-        String rootDir = path;
+        String rootDir = filepath;
         // 轮询间隔 5 秒
         long interval = TimeUnit.SECONDS.toMillis(1);
         // 创建过滤器  暂不使用
