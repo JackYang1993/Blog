@@ -24,21 +24,22 @@ public class FileScanner extends FileAlterationListenerAdaptor {
     public void onFileCreate(File file) {
         log.info("[新建]:" + file.getAbsolutePath());
 
+        GenerateResource.fileScanner(new File("/home/blog/ProblemRepository"));
 
-        if (file.isFile()) {
-            GenerateResource.generateHtml(new File(file.getAbsolutePath()));
-        }
-
+        GenerateResource.generateIndex();
     }
 
     /**
      * 文件创建修改
      */
     public void onFileChange(File file) {
-        if (file.isFile()) {
-            log.info("[修改]:" + file.getAbsolutePath());
-            GenerateResource.generateHtml(new File(file.getAbsolutePath()));
-        }
+
+        log.info("[修改]:" + file.getAbsolutePath());
+
+        GenerateResource.fileScanner(new File("/home/blog/ProblemRepository"));
+        GenerateResource.generateIndex();
+
+
     }
 
     /**

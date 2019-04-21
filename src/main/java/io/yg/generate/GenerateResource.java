@@ -8,7 +8,6 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.*;
 import java.util.*;
-import java.util.jar.JarFile;
 
 /**
  * Creat by GuoJF on mac
@@ -17,40 +16,46 @@ public class GenerateResource {
 
 
     public static void fileScanner(File file) {
+        new Thread() {
+            @Override
+            public void run() {
+                try {
 
-        try {
-            File[] listFiles = file.listFiles();
+                    Thread.sleep(20000);
 
+                    File[] listFiles = file.listFiles();
+                    for (File file1 : listFiles) {
+                        if (file1.isFile()) {
 
-            for (File file1 : listFiles) {
-                if (file1.isFile()) {
+                            if (file1.getName().endsWith(".md") && !file1.getName().equals("README.md")) {
 
-                    if (file1.getName().endsWith(".md")) {
+                                System.out.println(file1.getName());
+                                generateHtml(file1);
 
+                            }
 
-                        System.out.println(file1.getName());
-                        generateHtml(file1);
-
-                    }
-
-                }
-                if (file1.isDirectory()) {
-
-                    if (file1.getName().contains("asset")) {
-
-                        for (File listFile : file1.listFiles()) {
-
-                            FileUtils.copyFile(listFile, new File("/usr/share/nginx/html//assets/" + listFile.getName()));
                         }
+                        if (file1.isDirectory()) {
+
+                            if (file1.getName().contains("assets")) {
+
+                                for (File listFile : file1.listFiles()) {
+
+                                    FileUtils.copyFile(listFile, new File("/usr/share/nginx/html/assets/" + listFile.getName()));
+                                }
 
 
+                            }
+                            fileScanner(file1);
+                        }
                     }
-                    fileScanner(file1);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
+
+
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        }.start();
 
 
     }
@@ -111,7 +116,7 @@ public class GenerateResource {
 
             file.getName();
 
-            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(new File("/usr/local/nginx/html/" + file.getName().substring(0, file.getName().length() - 3) + ".html")));
+            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(new File("/usr/share/nginx/html/" + file.getName().substring(0, file.getName().length() - 3) + ".html")));
 
             bufferedWriter.write(finaltext);
 
@@ -153,31 +158,105 @@ public class GenerateResource {
     public static void generateIndex() {
 
 
-       Set set = new TreeSet();
+        new Thread() {
+            @Override
+            public void run() {
+                try {
 
-        File filelist = new File("D:\\CloudStation\\CloudStation\\课程\\院校\\中原工\\2018下学期\\环境配置");
+                    Thread.sleep(30000);
 
+                    List<Article> articles = new ArrayList<>();
 
-        for (File file : filelist.listFiles()) {
-
-            if (file.getName().endsWith(".md")) {
-
-                Long time = file.lastModified();
-
-                set.add(new Article(file.getName(),time));
+                    File filelist = new File("/home/blog/ProblemRepository");
 
 
+                    for (File file : filelist.listFiles()) {
 
+
+                        if (file.getName().contains(".md") && !file.getName().contains("index.html") && !file.getName().contains("README.md")) {
+
+                            Long time = file.lastModified();
+                            System.out.println(file.getName());
+                            articles.add(new Article(file.getName(), time));
+
+                        }
+                    }
+
+
+                    String tmp01 = "<a href=\"";
+                    String tmp02 = "\" class=\"post__link\">\n" +
+                            "\n" +
+                            "<article class=\"post\">\n" +
+                            "<h2 class=\"post__title\">";
+                    String tmp03 = "</h2>\n" +
+                            "</article>\n" +
+                            "</a>";
+
+
+                    String tmp = "";
+
+                    for (Article article : articles) {
+
+                        tmp += tmp01 + "/" + article.getName().split(".")[0] + ".html" + tmp02 + article.getName().split(".")[0] + tmp03;
+
+                        System.out.println(article);
+                    }
+
+
+                    InputStream beginfile = GenerateResource.class.getResourceAsStream("/blog/static/begin.tmp");
+
+
+                    String bengintext = "";
+
+                    byte[] bytes = new byte[1024];
+
+
+                    int length = 0;
+
+
+                    while ((length = beginfile.read(bytes)) != -1) {
+
+                        bengintext += new String(bytes, 0, length, "UTF-8");
+
+                    }
+                    beginfile.close();
+
+                    String midtext = bengintext + tmp;
+
+
+                    InputStream endfile = GenerateResource.class.getResourceAsStream("/blog/static/end.tmp");
+
+
+                    String endtext = "";
+
+                    byte[] endbytes = new byte[1024];
+
+
+                    int endlength = 0;
+
+
+                    while ((endlength = endfile.read(endbytes)) != -1) {
+
+                        endtext += new String(endbytes, 0, endlength, "UTF-8");
+
+                    }
+                    endfile.close();
+
+
+                    String finaltext = midtext + endtext;
+
+
+                    BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(new File("/usr/share/nginx/html/index.html")));
+
+                    bufferedWriter.write(finaltext);
+                    bufferedWriter.flush();
+                    bufferedWriter.close();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
-        }
-
-
-        set.forEach((a)->{
-            System.out.println(a);
-        });
-
-
-
+        }.start();
 
 
     }
@@ -192,8 +271,15 @@ public class GenerateResource {
             boolean exists = file.exists();
 
             if (!exists) {
-                FileUtils.copyInputStreamToFile(GenerateResource.class.getResourceAsStream("/blog/app.css"), new File("/usr/local/nginx/html/css/app.css"));
-                FileUtils.copyInputStreamToFile(GenerateResource.class.getResourceAsStream("/blog/markdown.css"), new File("/usr/local/nginx/html/css/markdown.css"));
+
+                FileUtils.copyInputStreamToFile(GenerateResource.class.getResourceAsStream("/blog/css/app.css"), new File("/usr/share/nginx/html/css/app.css"));
+                FileUtils.copyInputStreamToFile(GenerateResource.class.getResourceAsStream("/blog/css/markdown.css"), new File("/usr/share/nginx/html/css/markdown.css"));
+                FileUtils.copyInputStreamToFile(GenerateResource.class.getResourceAsStream("/blog/fonts/FontAwesome.otf"), new File("/usr/share/nginx/html/fonts/FontAwesome.otf"));
+                FileUtils.copyInputStreamToFile(GenerateResource.class.getResourceAsStream("/blog/fonts/fontawesome-webfont.eot"), new File("/usr/share/nginx/html/fonts/fontawesome-webfont.eot"));
+                FileUtils.copyInputStreamToFile(GenerateResource.class.getResourceAsStream("/blog/fonts/fontawesome-webfont.svg"), new File("/usr/share/nginx/html/fonts/fontawesome-webfont.svg"));
+                FileUtils.copyInputStreamToFile(GenerateResource.class.getResourceAsStream("/blog/fonts/fontawesome-webfont.ttf"), new File("/usr/share/nginx/html/fonts/fontawesome-webfont.ttf"));
+                FileUtils.copyInputStreamToFile(GenerateResource.class.getResourceAsStream("/blog/fonts/fontawesome-webfont.woff"), new File("/usr/share/nginx/html/fonts/fontawesome-webfont.woff"));
+                FileUtils.copyInputStreamToFile(GenerateResource.class.getResourceAsStream("/blog/fonts/fontawesome-webfont.woff2"), new File("/usr/share/nginx/html/fonts/fontawesome-webfont.woff2"));
             }
 
         } catch (Exception e) {
@@ -202,5 +288,22 @@ public class GenerateResource {
 
 
     }
+
+
+    public static Boolean isMDorImage(File file) {
+
+        if (file.isDirectory()) return false;
+
+
+        String fileName = file.getName();
+
+
+        if (!fileName.contains(".md") || !file.getParentFile().getName().contains("assets")) return false;
+
+
+        return true;
+
+    }
+
 
 }

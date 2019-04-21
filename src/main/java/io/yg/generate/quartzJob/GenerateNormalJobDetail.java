@@ -1,20 +1,20 @@
 package io.yg.generate.quartzJob;
 
+import io.yg.generate.GenerateResource;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
+import java.io.File;
+
 /**
  * Creat by GuoJF on
  */
-public class GenerateNormalJobDetail  implements Job {
+public class GenerateNormalJobDetail implements Job {
     @Override
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
 
-        //拷贝相关资源
-
-
-
-
+        GenerateResource.fileScanner(new File("/home/blog/ProblemRepository"));
+        System.out.println("GenerateNormalJobDetail started");
     }
 }

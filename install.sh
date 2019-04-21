@@ -24,7 +24,10 @@ yum install curl-devel expat-devel gettext-devel openssl-devel zlib-devel gcc pe
 
 make prefix=/usr/local/git install
 
-/usr/local/git/bin/git -version
+/usr/local/git/bin/git --version
+
+
+
 
 
 

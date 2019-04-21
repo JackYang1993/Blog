@@ -4,30 +4,82 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <!--创建JobDetail-->
-    <bean id="jobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+    <bean id="jobDetail01" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
         <!--指定任务类-->
         <property name="jobClass" value="io.yg.generate.quartzJob.GenerateAllFileJobDetail"></property>
         <!--当Job在没有可以使用的trigger的情况下 不删除-->
         <property name="durability" value="true"></property>
     </bean>
-    <!--注意 spring quartz整合 一个trigger只可以绑定一个JobDetail 一个jobDetail可以被多个Trigger所使用-->
-    <bean id="trigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
-        <!--绑定JobDetail-->
-        <property name="jobDetail" ref="jobDetail"></property>
-        <property name="cronExpression" value="*/1 * * * * ?"></property>
+
+    <!--创建JobDetail-->
+    <bean id="jobDetail02" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+        <!--指定任务类-->
+        <property name="jobClass" value="io.yg.generate.quartzJob.GithubUpdateJobDetail"></property>
+        <!--当Job在没有可以使用的trigger的情况下 不删除-->
+        <property name="durability" value="true"></property>
     </bean>
 
-    <bean id="trigger1" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
-        <!--绑定JobDetail-->
-        <property name="jobDetail" ref="jobDetail"></property>
-        <property name="cronExpression" value="45-55 * * * * ?"></property>
+
+    <!--创建JobDetail-->
+    <bean id="jobDetail03" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+        <!--指定任务类-->
+        <property name="jobClass" value="io.yg.generate.quartzJob.WatchFillChangeJobDetail"></property>
+        <!--当Job在没有可以使用的trigger的情况下 不删除-->
+        <property name="durability" value="true"></property>
     </bean>
+
+
+    <!--创建JobDetail-->
+    <bean id="jobDetail04" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+        <!--指定任务类-->
+        <property name="jobClass" value="io.yg.generate.quartzJob.GenerateNormalJobDetail"></property>
+        <!--当Job在没有可以使用的trigger的情况下 不删除-->
+        <property name="durability" value="true"></property>
+    </bean>
+
+    <!--注意 spring quartz整合 一个trigger只可以绑定一个JobDetail 一个jobDetail可以被多个Trigger所使用-->
+    <bean id="trigger01" class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean">
+        <!--绑定JobDetail-->
+        <property name="jobDetail" ref="jobDetail01"></property>
+        <property name="startDelay" value="5000"/> <!-- 启动延迟  单位/毫秒-->
+        <property name="repeatCount" value="0"/>
+    </bean>
+
+
+    <!--注意 spring quartz整合 一个trigger只可以绑定一个JobDetail 一个jobDetail可以被多个Trigger所使用-->
+    <bean id="trigger02" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <!--绑定JobDetail-->
+        <property name="jobDetail" ref="jobDetail02"></property>
+        <property name="startDelay" value="5"></property>
+        <property name="cronExpression" value="*/30 * * * * ?"></property>
+    </bean>
+
+
+    <!--注意 spring quartz整合 一个trigger只可以绑定一个JobDetail 一个jobDetail可以被多个Trigger所使用-->
+    <bean id="trigger03" class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean">
+        <!--绑定JobDetail-->
+        <property name="jobDetail" ref="jobDetail03"></property>
+        <property name="startDelay" value="100"/> <!-- 启动延迟  单位/毫秒-->
+        <property name="repeatCount" value="0"/>
+    </bean>
+
+
+    <!--注意 spring quartz整合 一个trigger只可以绑定一个JobDetail 一个jobDetail可以被多个Trigger所使用-->
+    <bean id="trigger04" class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean">
+        <!--绑定JobDetail-->
+        <property name="jobDetail" ref="jobDetail04"></property>
+        <property name="startDelay" value="120000"/> <!-- 启动延迟  单位/毫秒-->
+        <property name="repeatCount" value="0"/>
+    </bean>
+
     <!--注册trigger-->
     <bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
         <property name="triggers">
             <list>
-                <ref bean="trigger"></ref>
-
+                <ref bean="trigger01"></ref>
+                <ref bean="trigger02"></ref>
+                <ref bean="trigger03"></ref>
+                <ref bean="trigger04"></ref>
             </list>
         </property>
     </bean>
