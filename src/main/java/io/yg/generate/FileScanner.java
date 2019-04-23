@@ -92,15 +92,15 @@ public class FileScanner extends FileAlterationListenerAdaptor {
         // 创建过滤器  暂不使用
         IOFileFilter directories = FileFilterUtils.and(
                 FileFilterUtils.directoryFileFilter(),
-                HiddenFileFilter.VISIBLE);
+                FileFilterUtils.suffixFileFilter(".git"));
         IOFileFilter files = FileFilterUtils.and(
                 FileFilterUtils.fileFileFilter(),
                 FileFilterUtils.suffixFileFilter(".md"));
-        IOFileFilter filter = FileFilterUtils.or(directories, files);
+        IOFileFilter filter = FileFilterUtils.or(directories);
 
 
         // 使用过滤器
-        FileAlterationObserver observer = new FileAlterationObserver(new File(rootDir));
+        FileAlterationObserver observer = new FileAlterationObserver(new File(rootDir),filter);
         //不使用过滤器
         //FileAlterationObserver observer = new FileAlterationObserver(new File(rootDir));
         observer.addListener(new FileScanner());

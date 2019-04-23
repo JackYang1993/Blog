@@ -20,9 +20,6 @@ public class SpringBootApp {
     public static void main(String[] args) throws IOException {
         SpringApplication.run(SpringBootApp.class, args);
 
-
     }
-
-
 
 }
