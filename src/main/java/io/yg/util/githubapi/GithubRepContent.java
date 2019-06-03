@@ -91,4 +91,19 @@ public class GithubRepContent {
          return _links;
      }
 
+    @Override
+    public String toString() {
+        return "GithubRepContent{" +
+                "name='" + name + '\'' +
+                ", path='" + path + '\'' +
+                ", sha='" + sha + '\'' +
+                ", size=" + size +
+                ", url='" + url + '\'' +
+                ", html_url='" + html_url + '\'' +
+                ", git_url='" + git_url + '\'' +
+                ", download_url='" + download_url + '\'' +
+                ", type='" + type + '\'' +
+                ", _links=" + _links +
+                '}';
+    }
 }

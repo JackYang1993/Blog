@@ -4,14 +4,19 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.alibaba.fastjson.parser.JSONToken;
 import io.yg.util.githubapi.GithubAPI;
+import io.yg.util.githubapi.GithubRepContent;
+import org.apache.commons.io.CopyUtils;
+import org.apache.commons.io.FileUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.springframework.util.FileCopyUtils;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Creat by GuoJF on mac
@@ -82,5 +87,70 @@ public class NetWorkUtil {
 
 
     }
+
+
+    public static List<GithubRepContent> getAllFile(String rooturl, String imageurl) throws Exception {
+
+        // 创建Httpclient对象
+        CloseableHttpClient httpclient = HttpClients.createDefault();
+
+        // 创建http GET请求
+        HttpGet httpGet = new HttpGet(rooturl);
+
+
+        /*
+         * 处理根目录相关资源
+         * */
+        CloseableHttpResponse httpResponse = httpclient.execute(httpGet);
+
+
+        HttpEntity entity = httpResponse.getEntity();
+
+        String content = EntityUtils.toString(entity);
+
+
+        List<GithubRepContent> githubRepContents = JSON.parseObject(content, new TypeReference<List<GithubRepContent>>() {
+        });
+
+        for (GithubRepContent repContent : githubRepContents) {
+
+            System.out.println(repContent);
+        }
+
+
+        /*
+         * 处理图片相关资源
+         * */
+
+        HttpGet httpGet1 = new HttpGet(imageurl);
+
+        CloseableHttpResponse image = httpclient.execute(httpGet1);
+
+        HttpEntity imageEntity = image.getEntity();
+
+        String imagejson = EntityUtils.toString(imageEntity);
+
+
+        List<GithubRepContent> imagejsons = JSON.parseObject(imagejson, new TypeReference<List<GithubRepContent>>() {
+        });
+
+        for (GithubRepContent repContent : imagejsons) {
+
+            System.out.println(repContent);
+        }
+
+        httpclient.close();
+
+
+        githubRepContents.addAll(imagejsons);
+
+
+        return githubRepContents;
+
+    }
+
+
+
+
 
 }

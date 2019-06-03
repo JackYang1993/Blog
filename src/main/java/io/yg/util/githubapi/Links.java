@@ -35,4 +35,12 @@ public class Links {
          return html;
      }
 
+    @Override
+    public String toString() {
+        return "Links{" +
+                "self='" + self + '\'' +
+                ", git='" + git + '\'' +
+                ", html='" + html + '\'' +
+                '}';
+    }
 }
