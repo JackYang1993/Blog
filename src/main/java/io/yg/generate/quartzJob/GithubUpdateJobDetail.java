@@ -6,6 +6,7 @@ import io.yg.util.ShellUtil;
 import io.yg.util.githubapi.ArticleUrl;
 import io.yg.util.githubapi.GithubRepContent;
 import org.apache.commons.io.FileUtils;
+import org.apache.el.lang.ELArithmetic;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -21,13 +22,13 @@ import java.util.List;
 public class GithubUpdateJobDetail implements Job {
 
 
-    private static List<GithubRepContent> githubRepContents;
+   /* private static List<GithubRepContent> githubRepContents;
 
     static {
 
         githubRepContents = new ArrayList<>();
     }
-
+*/
     /*
      * 更新Job
      * */
@@ -37,12 +38,18 @@ public class GithubUpdateJobDetail implements Job {
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
 
 
-        if (NetWorkUtil.isRepUpdate("https://api.github.com/repos/GuoJiafeng/ProblemRepository")) {
 
 
-          //  ShellUtil.exceScript("/usr/local/git/bin/git  -C /home/blog/ProblemRepository  pull ", ShellUtil.LINUX);
+     /*   if (NetWorkUtil.isRepUpdate(ArticleUrl.ARTICLEURL_REP)) {
 
-            if (githubRepContents.size() != 0) {
+
+            ShellUtil.exceScript("/usr/local/git/bin/git  -C /home/blog/ProblemRepository  pull ", ShellUtil.LINUX);
+
+        }else {
+            System.out.println("无需更新！");
+
+        }*/
+        /*    if (githubRepContents.size() != 0) {
                 try {
                     List<GithubRepContent> allFile = NetWorkUtil.getAllFile(ArticleUrl.ARTICLEURL_ROOT, ArticleUrl.ARTICLEURL_IMAGE);
 
@@ -66,9 +73,9 @@ public class GithubUpdateJobDetail implements Job {
                             }
 
 
-                            FileUtils.copyURLToFile(new URL(githubRepContent1.getDownload_url()), new File(filename));
+                            // FileUtils.copyURLToFile(new URL(githubRepContent1.getDownload_url()), new File(filename));
 
-
+                            ShellUtil.exceScript("wget  --no-check-certificate '" + githubRepContent.getDownload_url() + "'  -O " + filename, ShellUtil.LINUX);
                         }
 
                     }
@@ -90,11 +97,12 @@ public class GithubUpdateJobDetail implements Job {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            }
+            }*/
 
-        } else {
 
-            System.out.println("当前不需要更新！");
-        }
+        /*
+        *
+        * /usr/share/nginx/html/*/
+
     }
 }

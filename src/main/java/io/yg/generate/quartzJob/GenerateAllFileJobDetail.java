@@ -1,5 +1,6 @@
 package io.yg.generate.quartzJob;
 
+import io.yg.generate.FileScanner;
 import io.yg.generate.GenerateResource;
 import io.yg.util.NetWorkUtil;
 import io.yg.util.ShellUtil;
@@ -21,12 +22,12 @@ import java.util.List;
 
 public class GenerateAllFileJobDetail implements Job {
 
-    private static List<GithubRepContent> githubRepContents;
+   /* private static List<GithubRepContent> githubRepContents;
 
     static {
 
         githubRepContents = new ArrayList<>();
-    }
+    }*/
 
 
     /*
@@ -35,15 +36,27 @@ public class GenerateAllFileJobDetail implements Job {
      * */
     @Override
     public void execute(JobExecutionContext jobExecutionContext) {
+
+
+
+        FileScanner fileScanner = new FileScanner();
+
+        try {
+
+            System.out.println("开始监听！");
+            fileScanner.start("D:\\home\\blog\\ProblemRepository");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         File file = new File("/home/blog/ProblemRepository");
 
         if (!file.exists()) {
-            file.mkdir();
+            file.mkdirs();
 
-            // String s = ShellUtil.exceScript("/usr/local/git/bin/git -C /home/blog/  clone https://github.com/GuoJiafeng/ProblemRepository.git ", ShellUtil.LINUX);
+            //String s = ShellUtil.exceScript("/usr/local/git/bin/git -C /home/blog/  clone https://github.com/GuoJiafeng/ProblemRepository.git ", ShellUtil.LINUX);
             //System.out.println(s);
 
-            try {
+          /*  try {
                 githubRepContents = NetWorkUtil.getAllFile(ArticleUrl.ARTICLEURL_ROOT, ArticleUrl.ARTICLEURL_IMAGE);
 
                 for (GithubRepContent githubRepContent : githubRepContents) {
@@ -58,19 +71,23 @@ public class GenerateAllFileJobDetail implements Job {
                     }
 
 
-                    FileUtils.copyURLToFile(new URL(githubRepContent.getDownload_url()), new File(filename));
+                    // FileUtils.copyURLToFile(new URL(githubRepContent.getDownload_url()), new File(filename));
 
+
+                    //wget  --no-check-certificate
+
+                  //  ShellUtil.exceScript("wget  --no-check-certificate '" + githubRepContent.getDownload_url() + "'  -O " + filename, ShellUtil.LINUX);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-            }
+            }*/
 
 
             GenerateResource.copyCSSResgource();
 
         } else {
 
-            if (githubRepContents.size() == 0) {
+           /* if (githubRepContents.size() == 0) {
                 try {
                     List<GithubRepContent> allFile = NetWorkUtil.getAllFile(ArticleUrl.ARTICLEURL_ROOT, ArticleUrl.ARTICLEURL_IMAGE);
 
@@ -94,9 +111,9 @@ public class GenerateAllFileJobDetail implements Job {
                             }
 
 
-                            FileUtils.copyURLToFile(new URL(githubRepContent1.getDownload_url()), new File(filename));
+                            //FileUtils.copyURLToFile(new URL(githubRepContent1.getDownload_url()), new File(filename));
 
-
+                            ShellUtil.exceScript("wget  --no-check-certificate '" + githubRepContent.getDownload_url() + "'  -O " + filename, ShellUtil.LINUX);
                         }
 
                     }
@@ -119,22 +136,29 @@ public class GenerateAllFileJobDetail implements Job {
                     e.printStackTrace();
                 }
             }
+*/
+           // String s = ShellUtil.exceScript("/usr/local/git/bin/git -C /home/blog/ProblemRepository   pull ", ShellUtil.LINUX);
+            GenerateResource.copyCSSResgource();
 
-            //String s = ShellUtil.exceScript("/usr/local/git/bin/git -C /home/blog/ProblemRepository   pull ", ShellUtil.LINUX);
+
+            GenerateResource.fileScanner(new File("d:/home/blog/ProblemRepository"));
 
 
-            try {
-                GenerateResource.generateIndex();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            //System.out.println(s);
+            GenerateResource.generateIndex();
 
+
+
+
+
+           // GenerateResource.generateIndex();
+
+           // System.out.println(s);
+
+            System.out.println("GenerateAllFileJobDetail  zhixing");
 
         }
 
 
-        System.out.println("GenerateAllFileJobDetail  zhixing");
 
 
     }

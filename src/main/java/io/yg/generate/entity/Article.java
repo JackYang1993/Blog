@@ -1,9 +1,11 @@
 package io.yg.generate.entity;
 
+import java.util.Comparator;
+
 /**
  * Create by GuoJF on 2019/4/19
  */
-public class Article implements Comparable<Article> {
+public class Article  {
 
 
     private String name;
@@ -34,12 +36,7 @@ public class Article implements Comparable<Article> {
     }
 
 
-    @Override
-    public int compareTo(Article o) {
-        Article p = (Article) o;
 
-        return this.time.compareTo(p.time);
-    }
 
     @Override
     public String toString() {
@@ -48,4 +45,6 @@ public class Article implements Comparable<Article> {
                 ", time=" + time +
                 '}';
     }
+
+
 }

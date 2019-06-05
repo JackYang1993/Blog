@@ -37,6 +37,7 @@ public class FileScanner extends FileAlterationListenerAdaptor {
         log.info("[修改]:" + file.getAbsolutePath());
 
         GenerateResource.fileScanner(new File("/home/blog/ProblemRepository"));
+
         GenerateResource.generateIndex();
 
 
@@ -93,14 +94,16 @@ public class FileScanner extends FileAlterationListenerAdaptor {
         IOFileFilter directories = FileFilterUtils.and(
                 FileFilterUtils.directoryFileFilter(),
                 FileFilterUtils.suffixFileFilter(".git"));
+
         IOFileFilter files = FileFilterUtils.and(
                 FileFilterUtils.fileFileFilter(),
                 FileFilterUtils.suffixFileFilter(".md"));
+
         IOFileFilter filter = FileFilterUtils.or(directories);
 
 
         // 使用过滤器
-        FileAlterationObserver observer = new FileAlterationObserver(new File(rootDir),filter);
+        FileAlterationObserver observer = new FileAlterationObserver(new File(rootDir));
         //不使用过滤器
         //FileAlterationObserver observer = new FileAlterationObserver(new File(rootDir));
         observer.addListener(new FileScanner());

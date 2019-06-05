@@ -12,13 +12,6 @@ public class WatchFillChangeJobDetail implements Job {
     @Override
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
 
-        FileScanner fileScanner = new FileScanner();
-
-        try {
-            fileScanner.start("/home/blog/ProblemRepository");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
     }
 }

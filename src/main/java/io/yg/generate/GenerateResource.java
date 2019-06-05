@@ -21,7 +21,7 @@ public class GenerateResource {
             public void run() {
                 try {
 
-                    Thread.sleep(20000);
+                   // Thread.sleep(20000);
 
                     File[] listFiles = file.listFiles();
                     for (File file1 : listFiles) {
@@ -163,8 +163,6 @@ public class GenerateResource {
             public void run() {
                 try {
 
-                    Thread.sleep(30000);
-
                     List<Article> articles = new ArrayList<>();
 
                     File filelist = new File("/home/blog/ProblemRepository");
@@ -176,8 +174,11 @@ public class GenerateResource {
                         if (file.getName().contains(".md") && !file.getName().contains("index.html") && !file.getName().contains("README.md")) {
 
                             Long time = file.lastModified();
-                            System.out.println(file.getName());
+
+                          //  System.out.println(file.getName());
                             articles.add(new Article(file.getName(), time));
+
+                           // System.out.println(file.getName());
 
                         }
                     }
@@ -195,11 +196,31 @@ public class GenerateResource {
 
                     String tmp = "";
 
+                    Collections.sort(articles, new Comparator<Article>() {
+                        @Override
+                        public int compare(Article article01, Article article02) {
+                            if (article01.getTime()>article02.getTime()){
+                                return 1;
+                            }else {
+                                return -1;
+                            }
+                        }
+                    });
                     for (Article article : articles) {
 
-                        tmp += tmp01 + "/" + article.getName().split(".")[0] + ".html" + tmp02 + article.getName().split(".")[0] + tmp03;
+                       /* String tmp000= "Fl.md";
 
-                        System.out.println(article);
+                        String[] split = tmp000.split(".");
+
+
+                        String s = article.getName().split(".")[0];
+                        System.out.println(s);*/
+
+
+                        tmp += tmp01 + "/" + article.getName().split("\\.")[0] + ".html" + tmp02 + article.getName().split("\\.")[0] + tmp03;
+
+                        System.out.println(article.getName());
+
                     }
 
 

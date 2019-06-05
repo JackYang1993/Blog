@@ -14,7 +14,7 @@ public class GenerateNormalJobDetail implements Job {
     @Override
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
 
-        GenerateResource.fileScanner(new File("/home/blog/ProblemRepository"));
-        System.out.println("GenerateNormalJobDetail started");
+       // GenerateResource.fileScanner(new File("/home/blog/ProblemRepository"));
+       // System.out.println("GenerateNormalJobDetail started");
     }
 }
