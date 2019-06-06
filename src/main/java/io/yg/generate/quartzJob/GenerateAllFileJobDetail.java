@@ -44,7 +44,7 @@ public class GenerateAllFileJobDetail implements Job {
         try {
 
             System.out.println("开始监听！");
-            fileScanner.start("D:\\home\\blog\\ProblemRepository");
+            fileScanner.start("/home/blog/ProblemRepository");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -141,7 +141,7 @@ public class GenerateAllFileJobDetail implements Job {
             GenerateResource.copyCSSResgource();
 
 
-            GenerateResource.fileScanner(new File("d:/home/blog/ProblemRepository"));
+            GenerateResource.fileScanner(new File("/home/blog/ProblemRepository"));
 
 
             GenerateResource.generateIndex();
