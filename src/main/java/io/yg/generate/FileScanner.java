@@ -48,6 +48,10 @@ public class FileScanner extends FileAlterationListenerAdaptor {
      */
     public void onFileDelete(File file) {
         if (file.isFile()) {
+
+            GenerateResource.fileScanner(new File("/home/blog/ProblemRepository"));
+
+            GenerateResource.generateIndex();
             log.info("[删除]:" + file.getAbsolutePath());
             GenerateResource.delFile(new File(file.getAbsolutePath()));
         }
